@@ -345,7 +345,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     const userType = document.getElementById('user-type').value;
     const password = document.getElementById('password').value;
 
-    fetch('http://localhost:5000/login', {
+    fetch('https://flask-app-image.onrender.com/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -374,7 +374,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         const formData = new FormData();
         formData.append('file', file);
 
-        fetch('http://localhost:5000/upload', {
+        fetch('https://flask-app-image.onrender.com/upload', {
             method: 'POST',
             body: formData
         })
@@ -427,7 +427,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 
             const csvLink = document.getElementById('csv_link').value;
 
-            fetch('http://localhost:5000/upload_csv_from_link', {
+            fetch('https://flask-app-image.onrender.com/upload_csv_from_link', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -452,7 +452,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     }
 
     function populateColumns() {
-        fetch('http://localhost:5000/columns')
+        fetch('https://flask-app-image.onrender.com/columns')
         .then(response => response.json())
         .then(columns => {
             const columnSelect = document.getElementById('column-select');
@@ -501,7 +501,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
                 [filterColumn]: filterValue
             });
 
-            fetch(`http://localhost:5000/query?${queryParams.toString()}`)
+            fetch(`https://flask-app-image.onrender.com/query?${queryParams.toString()}`)
             .then(response => response.json())
             .then(data => {
                 const resultsDiv = document.getElementById('results');
@@ -549,7 +549,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
                 agg_function: aggFunction
             });
 
-            fetch(`http://localhost:5000/query?${queryParams.toString()}`)
+            fetch(`https://flask-app-image.onrender.com/query?${queryParams.toString()}`)
             .then(response => response.json())
             .then(data => {
                 const resultsDiv = document.getElementById('results');

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install Flask and other dependencies
-RUN pip install --no-cache-dir Flask Flask-Cors pandas
+RUN pip install --no-cache-dir Flask Flask-Cors pandas requests
 
 # Expose the Flask port
 EXPOSE 5000
