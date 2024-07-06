@@ -1,0 +1,570 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Data Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <label for="user-type">User Type:</label>
+            <select id="user-type" name="user_type">
+                <option value="guest">Guest</option>
+                <option value="admin">Admin</option>
+            </select>
+            <div id="admin-password" style="display: none;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div class="container" id="main-container" style="display: none;">
+        <h1>Upload CSV and Analyze Data</h1>
+        <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <input type="file" id="csv-file" name="file" accept=".csv" required>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="analysis">
+            <h2>Query Data</h2>
+            <select id="filter-key" name="filter_key">
+                
+            </select>
+            <input type="text" id="filter-value" name="filter_value" placeholder="Enter filter value (e.g., Halo)">
+            <button type="button" onclick="queryData()">Query</button>
+        </div>
+        <div id="results"></div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+ -->
+
+ <!-- <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Game Data Analysis</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+ </head>
+ <body>
+     <div class="container" id="login-container">
+         <h1>Login</h1>
+         <form id="login-form">
+             <label for="user-type">User Type:</label>
+             <select id="user-type" name="user_type">
+                 <option value="guest">Guest</option>
+                 <option value="admin">Admin</option>
+             </select>
+             <div id="admin-password" style="display: none;">
+                 <label for="password">Password:</label>
+                 <input type="password" id="password" name="password">
+             </div>
+             <button type="submit">Login</button>
+         </form>
+     </div>
+     
+     <div class="container" id="main-container" style="display: none;">
+         <h1>Upload CSV and Analyze Data</h1>
+         <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+             <input type="file" id="csv-file" name="file" accept=".csv" required>
+             <button type="submit">Upload</button>
+         </form>
+         <div id="analysis">
+             <h2>Query Data</h2>
+             <select id="filter-key" name="filter_key">
+                 
+             </select>
+             <input type="text" id="filter-value" name="filter_value" placeholder="Enter filter value (e.g., Halo)">
+             <button type="button" onclick="queryData()">Query</button>
+         </div>
+         <div id="aggregation">
+             <h2>Aggregate Data</h2>
+             <select id="agg-column" name="agg_column">
+                
+             </select>
+             <select id="agg-function" name="agg_function">
+                 <option value="sum">Sum</option>
+                 <option value="max">Max</option>
+                 <option value="min">Min</option>
+                 <option value="mean">Mean</option>
+             </select>
+             <button type="button" onclick="aggregateData()">Aggregate</button>
+         </div>
+         <div id="results"></div>
+         <button type="button" onclick="logout()">Logout</button>
+     </div>
+     
+     <script src="{{ url_for('static', filename='script.js') }}"></script>
+ </body>
+ </html> -->
+ 
+ <!-- <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Game Data Analysis</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+     
+ </head>
+ <body>
+     <div class="container" id="login-container">
+         <h1>Login</h1>
+         <form id="login-form">
+             <label for="user-type">User Type:</label>
+             <select id="user-type" name="user_type">
+                 <option value="guest">Guest</option>
+                 <option value="admin">Admin</option>
+             </select>
+             <div id="admin-password" style="display: none;">
+                 <label for="password">Password:</label>
+                 <input type="password" id="password" name="password">
+             </div>
+             <button type="submit">Login</button>
+         </form>
+     </div>
+     
+     <div class="container" id="main-container" style="display: none;">
+         <h1>Upload CSV and Analyze Data</h1>
+         <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+             <input type="file" id="csv-file" name="file" accept=".csv" required>
+             <button type="submit">Upload</button>
+         </form>
+         <div id="analysis">
+             <h2>Query Data</h2>
+             <button type="button" onclick="showQueryForm()">Query with Key and Value</button>
+             <button type="button" onclick="showAggregateForm()">Aggregate Queries</button>
+             
+             <div id="query-form" style="display: none;">
+                 <select id="filter-key" name="filter_key">
+                     
+                 </select>
+                 <input type="text" id="filter-value" name="filter_value" placeholder="Enter filter value (e.g., Halo)">
+                 <button type="button" onclick="queryData()">Query</button>
+             </div>
+             
+             <div id="aggregate-form" style="display: none;">
+                 <select id="agg-column" name="agg_column">
+                     
+                 </select>
+                 <select id="agg-function" name="agg_function">
+                     <option value="sum">Sum</option>
+                     <option value="max">Max</option>
+                     <option value="min">Min</option>
+                     <option value="mean">Mean</option>
+                 </select>
+                 
+                 <button type="button" onclick="aggregateData()">Aggregate Query</button>
+             </div>
+         </div>
+         <div id="results"></div>
+     </div>
+     
+     <script src="{{ url_for('static', filename='script.js') }}"></script>
+ </body>
+ </html> -->
+ 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Data Analysis</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#analysis {
+    margin-top: 20px;
+}
+
+#filter-container,
+#agg-container {
+    display: none;
+    margin-top: 10px;
+}
+
+#results {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h1>Login</h1>
+        <form id="login-form">
+            <label for="user-type">User Type:</label>
+            <select id="user-type" name="user_type">
+                <option value="guest">Guest</option>
+                <option value="admin">Admin</option>
+            </select>
+            <div id="admin-password" style="display: none;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div id="upload" style="display: none;">
+        <h1>Game Data Analysis</h1>
+    
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="csv-file" name="file">
+        <button type="submit">Upload CSV</button>
+    </form>
+    <br>
+    <form id="csvForm">
+        <label for="csv_link">CSV Link:</label>
+        <input type="text" id="csv_link" name="csv_link" required>
+        <button type="submit">Upload CSV</button>
+    </form>
+    </div>
+
+    <div id="analysis" style="display: none;">
+        <h2>Query Analysis</h2>
+        <label for="column-select">Select Column:</label>
+        <select id="column-select"></select>
+
+        <div id="filter-container">
+            <label for="filter-value">Filter Value:</label>
+            <input type="text" id="filter-value">
+        </div>
+
+        <div id="agg-container" style="display: none;">
+            <label for="agg-function">Aggregate Function:</label>
+            <select id="agg-function">
+                <option value="sum">Sum</option>
+                <option value="max">Max</option>
+                <option value="min">Min</option>
+                <option value="mean">Mean</option>
+                <!-- <option value="eq">Equal to</option>
+                <option value="gt">Greater than</option>
+                <option value="lt">Less than</option>
+                <option value="gte">Greater than or equal to</option>
+                <option value="lte">Less than or equal to</option> -->
+            </select>
+        </div>
+
+        <button type="button" onclick="queryData()">Query Data</button>
+        <button type="button" onclick="aggregateData()">Aggregate Data</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+    document.getElementById('user-type').addEventListener('change', function() {
+    const userType = document.getElementById('user-type').value;
+    const adminPassword = document.getElementById('admin-password');
+    if (userType === 'admin') {
+        adminPassword.style.display = 'block';
+    } else {
+        adminPassword.style.display = 'none';
+    }
+});
+
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const userType = document.getElementById('user-type').value;
+    const password = document.getElementById('password').value;
+
+    fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_type: userType, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('upload').style.display = 'block';
+            populateColumns();  // Fetch column names after successful login
+            // alert('Login successful');
+        } else {
+            alert('Login failed: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const fileInput = document.getElementById('csv-file');
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch('http://localhost:5000/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                showAnalysisForms();  // Show query forms after successful upload
+                populateColumns();    // Refresh column names after file upload
+            } else if (data.error) {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+//     const form = document.getElementById('csvForm');
+
+// form.addEventListener('submit', async (event) => {
+//     event.preventDefault();
+
+//     const formData = new FormData(form);
+//     const csvLink = formData.get('csv_link');
+
+//     try {
+//         const response = await fetch('http://localhost:5000/upload_csv_from_link', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ csv_link: csvLink }),
+//         });
+
+//         const data = await response.json();
+
+//         if (response.ok) {
+//             alert('CSV file uploaded successfully!');
+//             showAnalysisForms();  // Show query forms after successful upload
+//             populateColumns();    // Refresh column names after file upload
+//         } else {
+//             alert(`Error: ${data.error}`);
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//         alert('An error occurred while uploading the CSV file.');
+//     }
+// });
+        document.getElementById('csvForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const csvLink = document.getElementById('csv_link').value;
+
+            fetch('http://localhost:5000/upload_csv_from_link', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ csv_link: csvLink })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('CSV uploaded successfully from link!');
+                    showAnalysisForms();  // Show query forms after successful upload
+                    populateColumns();    // Refresh column names after file upload
+                } else {
+                    alert('Upload failed: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+    function showAnalysisForms() {
+        document.getElementById('analysis').style.display = 'block';
+    }
+
+    function populateColumns() {
+        fetch('http://localhost:5000/columns')
+        .then(response => response.json())
+        .then(columns => {
+            const columnSelect = document.getElementById('column-select');
+            columnSelect.innerHTML = '';  // Clear previous options
+
+            columns.forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                columnSelect.appendChild(option);
+            });
+
+            // Add change event listener to handle column selection
+            columnSelect.addEventListener('change', function() {
+                const selectedColumn = columnSelect.value;
+                const filterContainer = document.getElementById('filter-container');
+                const aggContainer = document.getElementById('agg-container');
+
+                // Check if selected column type is numeric
+                const isNumericType = ['AppID', 'Requiredage', 'Price', 'DLCcount', 'Positive', 'Negative', 'Scorerank'].includes(selectedColumn);
+
+                // Show/hide filter and aggregate containers based on column type
+                if (isNumericType) {
+                    filterContainer.style.display = 'block';
+                    aggContainer.style.display = 'block';
+                } else {
+                    filterContainer.style.display = 'block';
+                    aggContainer.style.display = 'none';
+                }
+            });
+
+            // Trigger change event initially to set initial state
+            columnSelect.dispatchEvent(new Event('change'));
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function queryData() {
+        const filterColumn = document.getElementById('column-select').value;
+        const filterValue = document.getElementById('filter-value').value;
+        // const filterOperator = document.getElementById('filter-operator').value;
+
+        if (filterColumn && filterValue) {
+            const queryParams = new URLSearchParams({
+                query_type: 'select',
+                [filterColumn]: filterValue
+            });
+
+            fetch(`http://localhost:5000/query?${queryParams.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '';  // Clear previous results
+                const table = document.createElement('table');
+                const headerRow = document.createElement('tr');
+
+                // Create table headers
+                if (data.length > 0) {
+                    Object.keys(data[0]).forEach(key => {
+                        const th = document.createElement('th');
+                        th.textContent = key;
+                        headerRow.appendChild(th);
+                    });
+                    table.appendChild(headerRow);
+                }
+
+                // Populate table rows
+                data.forEach(record => {
+                    const row = document.createElement('tr');
+                    Object.values(record).forEach(value => {
+                        const td = document.createElement('td');
+                        td.textContent = value;
+                        row.appendChild(td);
+                    });
+                    table.appendChild(row);
+                });
+
+                resultsDiv.appendChild(table);
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            alert('Please enter both filter column and value');
+        }
+    }
+
+    function aggregateData() {
+        const aggColumn = document.getElementById('column-select').value;
+        const aggFunction = document.getElementById('agg-function').value;
+
+        if (aggColumn && aggFunction) {
+            const queryParams = new URLSearchParams({
+                query_type: 'aggregate',
+                agg_column: aggColumn,
+                agg_function: aggFunction
+            });
+
+            fetch(`http://localhost:5000/query?${queryParams.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '';  // Clear previous results
+
+                const result = data[0].result;
+                const p = document.createElement('p');
+                p.textContent = `${aggFunction.toUpperCase()}(${aggColumn}): ${result}`;
+                resultsDiv.appendChild(p);
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            alert('Please select both aggregate function and column');
+        }
+    }
+    </script>
+</body>
+</html>
