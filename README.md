@@ -83,16 +83,34 @@ The application is deployed and can be accessed at: [https://flask-app-image.onr
 
 Sample CSV file link: [Sample CSV](https://docs.google.com/spreadsheets/d/e/2PACX-1vTAJTNsWIenb3UrPMjh5KmtJ9VA4U4YuMIFvmPPqi1npcVW12Btu0zZ7tgsdRm25zsEXsN2rcLfee9b/pub?gid=1065064397&single=true&output=csv)
 
+![To fetch or upload CSV](images/fetchCSV.png)
+
 ### Query Data
 
 1. Select the column you want to query.
 2. If filtering:
     - Enter the filter value.
-    - Select the filter operator (Equal to, Greater than, Less than, Greater than or equal to, Less than or equal to).
+    - If column is of string type then substring matching is allowed if it is numeric or date type then only exact value match is allowed
+    - If a numeric type column is selected then only filter operator dropdown will appear. Select the filter operator (Equal to, Greater than, Less than, Greater than or equal to, Less than or equal to).
     - Click on the "Filtered Query" button.
-3. If aggregating:
+3. If aggregating(Only for numeric type column):
     - Select the aggregate function (Sum, Max, Min, Mean).
     - Click on the "Aggregate Data Query" button.
+
+- List of column names in the dropdown menu to be selected for making query:
+![List of column names](images/columnNames.png)
+
+- Filtered query on a string type column:
+![query on name](images/stringQuery.png)
+
+- Filtered query on date:
+![Alt text](images/dateQuery.png)
+
+- Filtered query on numeric type column with filter operator:
+![Alt text](images/numericQuery.png)
+
+- Aggregate data query on numeric type column:
+![Alt text](images/aggregate.png)
 
 ### Logout
 
