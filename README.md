@@ -81,6 +81,8 @@ The application is deployed and can be accessed at: [https://flask-app-image.onr
     - Enter the CSV link.
     - Click on the "Fetch CSV" button.
 
+- Note: The CSV file could be as large as 150MB because the file is read in smaller chunks, and we load a portion of the data into memory at a time, significantly reducing memory usage.
+
 Sample CSV file link: [Sample CSV](https://docs.google.com/spreadsheets/d/e/2PACX-1vTAJTNsWIenb3UrPMjh5KmtJ9VA4U4YuMIFvmPPqi1npcVW12Btu0zZ7tgsdRm25zsEXsN2rcLfee9b/pub?gid=1065064397&single=true&output=csv)
 
 ![To fetch or upload CSV](images/fetchCSV.png)
