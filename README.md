@@ -70,7 +70,7 @@ The application is deployed and can be accessed at: [https://flask-app-image.onr
 - Select your user type (admin or guest).
 - If you are an admin, enter the admin password.
 
-![This is a login page image](images\login.png)
+![This is a login page image](images/login.png)
 
 ### Upload CSV
 
