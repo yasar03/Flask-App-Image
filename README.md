@@ -118,155 +118,189 @@ Sample CSV file link: [Sample CSV](https://docs.google.com/spreadsheets/d/e/2PAC
 
 - Clear your session by sending a POST request to `/logout`.
 
-## API Endpoints
+### API Sample Request/Response
 
-### `POST /login`
+### 1. Login Endpoint
 
-**Request:**
-```json
-{
-  "user_type": "admin",
-  "password": "admin123"
-}
-```
-
-**Response:**
-- Success:
-    ```json
-    {
-      "success": true
-    }
-    ```
-- Failure:
-    ```json
-    {
-      "success": false,
-      "message": "Invalid password"
-    }
-    ```
-
-### `POST /logout`
+**Endpoint:** `POST /login`
 
 **Request:**
-```json
-{
-  // No data needed for this request
-}
+```bash
+curl -X POST \
+  http://flask-app-image.onrender.com/login \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "user_type": "admin",
+        "password": "admin123"
+      }'
 ```
 
 **Response:**
 ```json
 {
-  "success": true
+  "success": True
 }
 ```
-
-### `POST /upload`
-
-**Request:**
-- Form Data:
-    - `file`: The CSV file to be uploaded.
-
-**Response:**
-- Success:
-    ```json
-    {
-      "message": "File successfully uploaded"
-    }
-    ```
-- Failure:
-    ```json
-    {
-      "error": "Error message explaining the failure"
-    }
-    ```
-
-### `POST /upload_csv_from_link`
-
-**Request:**
+Or in case of invalid password:
 ```json
 {
-  "csv_link": "https://example.com/data.csv"
+  "success": False,
+  "message": "Invalid password"
 }
 ```
 
-**Response:**
-- Success:
-    ```json
-    {
-      "success": true
-    }
-    ```
-- Failure:
-    ```json
-    {
-      "success": false,
-      "error": "Error message explaining the failure"
-    }
-    ```
+### 2. Logout Endpoint
 
-### `GET /query`
+**Endpoint:** `POST /logout`
 
 **Request:**
-- Query Parameters:
-    - For filtered query:
-        ```
-        ?query_type=select&filter_column=Price&filter_value=20&filter_operator=gt
-        ```
-    - For aggregate query:
-        ```
-        ?query_type=aggregate&agg_column=Price&agg_function=sum
-        ```
+```bash
+curl -X POST \
+  http://flask-app-image.onrender.com/logout
+```
 
 **Response:**
-- Success:
-    ```json
-    [
-      {
-        "AppID": 12345,
-        "Name": "Game Name",
-        "Price": 19.99,
-        ...
-      },
-      ...
-    ]
-    ```
-- Failure:
-    ```json
-    {
-      "error": "Invalid query type or missing parameters"
-    }
-    ```
-
-### `GET /columns`
-
-**Request:**
 ```json
 {
-  // No data needed for this request
+  "success": True
 }
 ```
 
+### 3. Upload CSV from Link Endpoint
+
+**Endpoint:** `POST /upload_csv_from_link`
+
+**Request:**
+```bash
+curl -X POST \
+  http://flask-app-image.onrender.com/upload_csv_from_link \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "csv_link": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTAJTNsWIenb3UrPMjh5KmtJ9VA4U4YuMIFvmPPqi1npcVW12Btu0zZ7tgsdRm25zsEXsN2rcLfee9b/pub?gid=1065064397&single=true&output=csv"
+      }'
+```
+
 **Response:**
-- Success:
-    ```json
-    [
-      "Unnamed",
-      "AppID",
-      "Name",
-      "ReleaseDate",
-      "RequiredAge",
-      "Price",
-      ...
-    ]
-    ```
-- Failure:
-    ```json
+```json
+{
+  "success": True
+}
+```
+Or in case of errors:
+```json
+{
+  "success": False,
+  "error": "The provided link does not point to a CSV file."
+}
+```
+Or:
+```json
+{
+  "success": False,
+  "error": "Error fetching CSV file: <error message>"
+}
+```
+Or:
+```json
+{
+  "success": False,
+  "error": "Unexpected error: <error message>"
+}
+```
+
+### 4. Query Data Endpoint
+
+**Endpoint:** `GET /query`
+
+**Request:**
+```bash
+curl -X GET \
+  'http://flask-app-image.onrender.com//query?query_type=select&Requiredage=18&filter_operator=eq'
+```
+
+**Response:**
+```json
+[
     {
-      "success": false,
-      "error": "Error message explaining the failure"
+        "Unnamed:0": 91,
+        "AppID": 1225870,
+        "Name": "Hentai Girlfriend Simulator",
+        "Releasedate": "Jan 31, 2020",
+        "Requiredage": 18,
+        "Price": 1.19,
+        "DLCcount": 0,
+        "Aboutthegame": "Have you ever thought of making yourself the perfect girlfriend? Now your dreams will come true! In this girlfriend simulator, you get complete control over relationships. Choose one of 3 girls with whom you will spend your time (or maybe eternity). You can do trivial things - watch TV together, walk. And you can act like a complete asshole! Tear off her clothes right on the street, offend or even push her under the car. Is it really realistic? Above all, you will need to earn money to support your girlfriend. Buying her food and trinkets. Feel the true experience of owning a girlfriend!",
+        "Supportedlanguages": "['English']",
+        "Windows": 1,
+        "Mac": 0,
+        "Linux": 0,
+        "Positive": 0,
+        "Negative": 0,
+        "Scorerank": null,
+        "Developers": "Slippy Floor",
+        "Publishers": "Slippy Floor",
+        "Categories": "Single-player",
+        "Genres": "Indie,Simulation",
+        "Tags": null
     }
-    ```
+]
+```
+
+### 5. Aggregate Search Endpoint
+
+**Endpoint:** `GET /query?query_type=aggregate&agg_column=age&agg_function=max`
+
+**Request:**
+```bash
+curl -X GET \
+  'http://flask-app-image.onrender.com/query?query_type=aggregate&agg_column=Requiredage&agg_function=max'
+```
+
+**Response:**
+```json
+[
+  {
+    "result": 18
+  }
+]
+```
+
+### 6. Get Columns Endpoint
+
+**Endpoint:** `GET /columns`
+
+**Request:**
+```bash
+curl -X GET \
+  http://flask-app-image.onrender.com/columns
+```
+
+**Response:**
+```json
+[
+    "Unnamed:0",
+    "AppID",
+    "Name",
+    "Releasedate",
+    "Requiredage",
+    "Price",
+    "DLCcount",
+    "Aboutthegame",
+    "Supportedlanguages",
+    "Windows",
+    "Mac",
+    "Linux",
+    "Positive",
+    "Negative",
+    "Scorerank",
+    "Developers",
+    "Publishers",
+    "Categories",
+    "Genres",
+    "Tags"
+]
+```
+
 
 ## Frontend
 
