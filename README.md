@@ -68,7 +68,7 @@ The application is deployed and can be accessed at: [https://flask-app-image.onr
 ### Login
 
 - Select your user type (admin or guest).
-- If you are an admin, enter the admin password.
+- If you are an admin, enter the admin password(Password for admin is 'admin123').
 
 ![This is a login page image](images/login.png)
 
